@@ -1,3 +1,4 @@
+import sys
 import sublime, sublime_plugin
 from subprocess import call
 
@@ -26,9 +27,13 @@ class GraphvizPreviewCommand(sublime_plugin.TextCommand):
 
         pdf_filename = graphvizPDF(code)
 
-        try:
-            call(['open', pdf_filename], env=ENVIRON)
-        except Exception as e:
+        openCmd=""
+        if (sys.platform.startswith('darwin')):
+            openCmd='open'
+        elif (sys.platform.startswith('linux')):
+            openCmd='xdg-open'
+        else:
             sublime.error_message('Graphviz: Could not open PDF, only works for Mac... fork this repo for your OS!')
-            raise e
+
+        call([openCmd, pdf_filename], env=ENVIRON)
 
