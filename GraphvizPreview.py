@@ -27,6 +27,9 @@ class GraphvizPreviewCommand(sublime_plugin.TextCommand):
 
         pdf_filename = graphvizPDF(code)
 
+        self.openPDF(pdf_filename)
+
+    def openPDF(self, pdf_filename):
         openCmd=""
         if (sys.platform.startswith('darwin')):
             openCmd='open'
