@@ -38,7 +38,7 @@ def surroundingGraphviz(data, cursor):
     return code
 
 
-def graphvizPDF(code):
+def graphvizPDF(code, pdf_filename):
     '''
     Convert graphviz code to a PDF.
     '''
@@ -47,8 +47,11 @@ def graphvizPDF(code):
     grapviz.write(code.encode('utf-8'))
     grapviz.close()
 
+    # if passed file name is empty, generate new one
+    if (pdf_filename == None):
+        pdf_filename = tempfile.mktemp(prefix='sublime_text_graphviz_', dir=None, suffix='.pdf')
+
     # compile pdf
-    pdf_filename = tempfile.mktemp(prefix='sublime_text_graphviz_', dir=None, suffix='.pdf')
     call(['dot', '-Tpdf', '-o' + pdf_filename, grapviz.name], env=ENVIRON)
     os.unlink(grapviz.name)
 

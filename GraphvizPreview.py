@@ -9,6 +9,10 @@ except ValueError:  # python 2
 
 
 class GraphvizPreviewCommand(sublime_plugin.TextCommand):
+    def __init__(self, view):
+        self.pdf_filename = None
+        self.view = view
+
     def run(self, edit):
         sel = self.view.sel()[0]
 
@@ -25,9 +29,9 @@ class GraphvizPreviewCommand(sublime_plugin.TextCommand):
             return
 
 
-        pdf_filename = graphvizPDF(code)
+        self.pdf_filename = graphvizPDF(code, self.pdf_filename)
 
-        self.openPDF(pdf_filename)
+        self.openPDF(self.pdf_filename)
 
     def openPDF(self, pdf_filename):
         openCmd=""
